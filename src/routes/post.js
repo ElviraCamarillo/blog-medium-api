@@ -1,11 +1,11 @@
 const express = require('express')
 
 const posts = require('../usecases/post')
-const auth = require('../middleware/auth')
+// const auth = require('../middleware/auth')
 
 const router = express.Router()
 
-router.use(auth)
+// router.use(auth)
 
 // GET/post
 router.get('/', async (request, response) => {
@@ -15,7 +15,47 @@ router.get('/', async (request, response) => {
       success: true,
       message: 'All posts',
       data: {
-        post: allPosts
+        posts: allPosts
+      }
+    })
+  } catch (error) {
+    response.status(404)
+    response.json({
+      success: false,
+      error: error.message
+    })
+  }
+})
+
+router.get('/.json', async (request, response) => {
+  try {
+    const allPosts = await posts.getAll()
+    response.json({
+      success: true,
+      message: 'All posts',
+      data: {
+        posts: allPosts
+      }
+    })
+  } catch (error) {
+    response.status(404)
+    response.json({
+      success: false,
+      error: error.message
+    })
+  }
+})
+
+// Get one Post
+router.get('/:id', async (request, response) => {
+  try {
+    const { id } = request.params
+    const post = await posts.getById(id)
+    response.json({
+      success: true,
+      message: 'Post',
+      data: {
+        post: post
       }
     })
   } catch (error) {

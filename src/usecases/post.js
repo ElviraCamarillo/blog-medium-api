@@ -5,6 +5,10 @@ function getAll () {
   return Post.find().sort({ date: 'descending' })
 }
 
+function getById (id) {
+  return Post.findById(id)
+}
+
 function create (postData) {
   return Post.create(postData)
 }
@@ -21,5 +25,6 @@ module.exports = {
   getAll,
   create,
   deleteById,
-  updateByID
+  updateByID,
+  getById
 }
